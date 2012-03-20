@@ -558,6 +558,7 @@
 ;;    'next)))
 
 (set! module.exports
-      {:compile compile
+      {:compile (lambda (src)
+                  (statements (compile src 'val 'next)))
        :ops runtime-ops
        :global-environment (setup-environment)})

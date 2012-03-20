@@ -1175,5 +1175,7 @@ return (function() {if(self_dash_evaluating_p_(exp)) {return ((function() {retur
 ;
 });
 var runtime_dash_ops = dict(string_dash__gt_symbol("make_dash_compiled_dash_procedure"),make_dash_compiled_dash_procedure,string_dash__gt_symbol("compiled_dash_procedure_p_"),compiled_dash_procedure_p_,string_dash__gt_symbol("compiled_dash_procedure_dash_env"),compiled_dash_procedure_dash_env,string_dash__gt_symbol("compiled_dash_procedure_dash_entry"),compiled_dash_procedure_dash_entry,string_dash__gt_symbol("extend_dash_environment"),extend_dash_environment,string_dash__gt_symbol("lookup_dash_variable_dash_value"),lookup_dash_variable_dash_value,string_dash__gt_symbol("define_dash_variable_excl_"),define_dash_variable_excl_,string_dash__gt_symbol("list"),list,string_dash__gt_symbol("cons"),cons,string_dash__gt_symbol("primitive_dash_procedure_p_"),primitive_dash_procedure_p_,string_dash__gt_symbol("apply_dash_primitive_dash_procedure"),apply_dash_primitive_dash_procedure,string_dash__gt_symbol("false_p_"),false_p_,string_dash__gt_symbol("true_p_"),true_p_);
-module.exports = dict(string_dash__gt_symbol("ops"),runtime_dash_ops,string_dash__gt_symbol("global_dash_environment"),setup_dash_environment());
+module.exports = dict(string_dash__gt_symbol("compile"),(function(src){
+return statements(compile(src,string_dash__gt_symbol("val"),string_dash__gt_symbol("next")));
+}),string_dash__gt_symbol("ops"),runtime_dash_ops,string_dash__gt_symbol("global_dash_environment"),setup_dash_environment());
 

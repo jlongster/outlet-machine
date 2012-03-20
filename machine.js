@@ -1296,6 +1296,7 @@ var o85 = (txt + "");
 return o84(o85);
 }))();
 }));
+process.stdin.pause();
 var prompt_dash_read = (function() {return process.stdin.resume();
 });
 var continue_dash_machine = (function() {process.stdin.pause();
@@ -1368,9 +1369,10 @@ set_dash_register_dash_contents_excl_(machine,string_dash__gt_symbol("env"),comp
 current_dash_machine = machine;
 return machine;
 });
-var o99 = make_dash_machine(list(string_dash__gt_symbol("env"),string_dash__gt_symbol("proc"),string_dash__gt_symbol("val"),string_dash__gt_symbol("arg1"),string_dash__gt_symbol("continue"),string_dash__gt_symbol("input")),compiler.ops,read(src));
+var o99 = make_dash_machine(list(string_dash__gt_symbol("env"),string_dash__gt_symbol("proc"),string_dash__gt_symbol("val"),string_dash__gt_symbol("arg1"),string_dash__gt_symbol("continue"),string_dash__gt_symbol("input")),compiler.ops,src);
 return o98(o99);
 }))();
 });
-module.exports = dict(string_dash__gt_symbol("feed_dash_asm"),feed_dash_asm);
+module.exports = dict(string_dash__gt_symbol("feed_dash_asm"),feed_dash_asm,string_dash__gt_symbol("result"),(function() {return get_dash_register_dash_contents(current_dash_machine,string_dash__gt_symbol("val"));
+}));
 

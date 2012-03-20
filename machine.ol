@@ -386,6 +386,7 @@
      (cond
       ((= stdin-mode 'repl) (on-repl-input txt))
       ((= stdin-mode 'break) (on-break-input txt))))))
+(process.stdin.pause)
 
 (define (prompt-read)
   (process.stdin.resume))
@@ -438,9 +439,11 @@
   (let ((machine (make-machine
                   '(env proc val arg1 continue input)
                   compiler.ops
-                  (read src))))
+                  src)))
     (set-register-contents! machine 'env compiler.global-environment)
     (set! current-machine machine)
     machine))
 
-(set! module.exports {:feed-asm feed-asm})
+(set! module.exports {:feed-asm feed-asm
+                      :result (lambda ()
+                                (get-register-contents current-machine 'val))})
