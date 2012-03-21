@@ -1,0 +1,24 @@
+This is a register-based virtual machine that runs a subset of Lisp.
+It supports the basic forms like `lambda`, `define`, `set!`, `if`,
+etc.
+
+Code is compiled to a special assembly language that the virtual
+machine assembles and runs.
+
+For example:
+
+    (define a 3)
+
+is compiled to:
+
+    ((assign val (const 3))
+     (perform
+      (op define-variable!)
+      (const a)
+      (reg val)
+      (reg env))
+     (assign val (const ok)))
+
+This is an experiment to see if this is capable of running Outlet
+(https://github.com/jlongster/outlet) code at acceptable speeds. If
+so, this has great potential as a debugger.
