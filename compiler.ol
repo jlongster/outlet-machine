@@ -179,6 +179,8 @@
 
 (define enclosing-environment cdr)
 (define first-frame car)
+(define (last-frame env)
+  (car (reverse env)))
 (define empty-environment '())
 
 (define (extend-environment vars vals base-env)
@@ -217,6 +219,14 @@
    (primitive-procedure-objects)
    empty-environment))
 
+(define (install-primitives procs)
+  (let ((bottom (last-frame global-environment)))
+    (for-each (lambda (key)
+                (dict-put!
+                 bottom key
+                 (make-primitive-procedure (dict-ref procs key))))
+              (keys procs))))
+
 ;; procedures
 
 (define primitive-procedures
@@ -230,15 +240,18 @@
    :- (lambda (x y) (- x y))
    :* (lambda (x y) (* x y))
    :> (lambda (x y) (> x y))
+   :< (lambda (x y) (< x y))
    :== ==})
 
 (define (primitive-procedure-names)
   (keys primitive-procedures))
 
 (define (primitive-procedure-objects)
-  (map (lambda (el)
-         (list 'primitive el))
+  (map make-primitive-procedure
        (vals primitive-procedures)))
+
+(define (make-primitive-procedure proc)
+  (list 'primitive proc))
 
 (define (primitive-procedure? proc)
   (eq? (car proc) 'primitive))
@@ -499,12 +512,27 @@
      (str "compile-proc-app1: return linkage, target not val: "
           target)))))
 
+;; breakpoints and flow control
+
+(define (next? exp)
+  (and (list? exp)
+       (eq? (car exp) 'next)))
+
+(define (compile-next linkage)
+  (end-with-linkage
+   linkage
+   (make-instruction-sequence
+    '() '()
+    '((next)))))
+
 ;; main
 
 (define all-regs '(env proc val arg1 continue))
 
 (define (compile exp target linkage)
   (cond
+   ((next? exp)
+    (compile-next linkage))
    ((self-evaluating? exp)
     (compile-self-evaluating exp target linkage))
    ((quoted? exp) (compile-quoted exp target linkage))
@@ -542,23 +570,11 @@
    :false? false?
    :true? true?})
 
-;; (pp
-;;  (statements
-;;   (compile
-;;    '(begin
-;;       (define (factorial n)
-;;         (define (iter product counter)
-;;           (if (> counter n)
-;;               product
-;;               (iter (* counter product) (+ counter 1))))
-;;         (iter 1 1))
-
-;;       (pp (factorial 100)))
-;;    'val
-;;    'next)))
+(define global-environment (setup-environment))
 
 (set! module.exports
       {:compile (lambda (src)
                   (statements (compile src 'val 'next)))
        :ops runtime-ops
-       :global-environment (setup-environment)})
+       :install-primitives install-primitives
+       :global-environment global-environment})
