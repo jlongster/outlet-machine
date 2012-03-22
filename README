@@ -2,6 +2,8 @@ This is a register-based virtual machine that runs a subset of Lisp.
 It supports the basic forms like `lambda`, `define`, `set!`, `if`,
 etc.
 
+Needs Outlet to run: https://github.com/jlongster/outlet
+
 Code is compiled to a special assembly language that the virtual
 machine assembles and runs.
 

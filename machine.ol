@@ -13,10 +13,6 @@
     (machine.install-instruction-sequence (assemble controller machine))
     machine))
 
-(define (set-register-contents! machine reg val))
-(define (get-register-contents machine reg))
-(define (start machine))
-
 ;; registers
 
 (define (make-register)
